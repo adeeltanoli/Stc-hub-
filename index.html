@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC Hub - Unified License Management Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --surface-0: #f8f9fa;
+            --surface-1: #eef0f3;
+            --surface-2: #ffffff;
+            --border: #d0d5dd;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--surface-0);
+            color: var(--text-primary);
+        }
+
+        .top-bar {
+            background: var(--surface-2);
+            border-bottom: 0.5px solid var(--border);
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: #5B2C7D;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            padding: 10px 16px;
+            background: #0F6E56;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #0d5a46;
+        }
+
+        .user-name {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            background: #E6F1FB;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #185FA5;
+            font-size: 12px;
+        }
+
+        .tabs {
+            background: var(--surface-2);
+            border-bottom: 0.5px solid var(--border);
+            padding: 0 24px;
+            display: flex;
+            gap: 24px;
+        }
+
+        .tab-btn {
+            flex: none;
+            padding: 16px 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: #5B2C7D;
+            border-bottom-color: #5B2C7D;
+        }
+
+        .tab-btn:hover {
+            color: #5B2C7D;
+        }
+
+        .container {
+            padding: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 500;
+            margin: 0 0 8px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .metric-card {
+            background: var(--surface-2);
+            border: 0.5px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin: 0 0 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .metric-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin: 4px 0 0;
+        }
+
+        .alert-banner {
+            background: #FAECE7;
+            border: 0.5px solid #D85A30;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 32px;
+            border-left: 4px solid #D85A30;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .alert-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .alert-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #993C1D;
+            margin: 0 0 4px;
+        }
+
+        .alert-msg {
+            font-size: 12px;
+            color: #993C1D;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface-2);
+            border: 0.5px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: var(--surface-1);
+            border-bottom: 0.5px solid var(--border);
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 0.5px solid var(--border);
+            font-size: 13px;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-critical {
+            background: #FAECE7;
+            color: #993C1D;
+        }
+
+        .status-active {
+            background: #E1F5EE;
+            color: #085041;
+        }
+
+        .status-secure {
+            background: #E1F5EE;
+            color: #085041;
+        }
+
+        .owner-cell {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .owner-avatar {
+            width: 24px;
+            height: 24px;
+            background: #E6F1FB;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #185FA5;
+            font-size: 10px;
+        }
+
+        .btn-renew {
+            padding: 6px 12px;
+            background: #0F6E56;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-renew:hover {
+            background: #0d5a46;
+        }
+
+        .btn-details {
+            padding: 6px 12px;
+            background: transparent;
+            border: 0.5px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            transition: border-color 0.2s;
+        }
+
+        .btn-details:hover {
+            border-color: #5B2C7D;
+        }
+
+        .request-card {
+            background: var(--surface-2);
+            border: 0.5px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #0F6E56;
+            margin-bottom: 16px;
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .request-title {
+            font-size: 12px;
+            color: #0F6E56;
+            margin: 0 0 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .request-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .badge-new {
+            background: #E6F1FB;
+            color: #185FA5;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .request-details {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .detail-field {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin: 0 0 4px;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .justification-box {
+            background: var(--surface-1);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .justification-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin: 0 0 6px;
+            font-weight: 500;
+        }
+
+        .justification-text {
+            font-size: 12px;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-approve {
+            flex: 1;
+            padding: 10px;
+            background: #0F6E56;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-approve:hover {
+            background: #0d5a46;
+        }
+
+        .btn-reject {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            border: 0.5px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: border-color 0.2s;
+        }
+
+        .btn-reject:hover {
+            border-color: #5B2C7D;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 1000;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--surface-2);
+            border-radius: 8px;
+            max-width: 600px;
+            padding: 32px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--text-secondary);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 24px;
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 0.5px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-primary);
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #5B2C7D;
+            box-shadow: 0 0 0 3px rgba(91, 44, 125, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .radio-label {
+            display: flex;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .radio-label input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 14px;
+            background: #0F6E56;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: #0d5a46;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            padding: 14px;
+            background: transparent;
+            border: 0.5px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: border-color 0.2s;
+        }
+
+        .btn-cancel:hover {
+            border-color: #5B2C7D;
+        }
+
+        .modal-footer {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .success-modal {
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            background: #E1F5EE;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 32px;
+        }
+
+        .success-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 8px;
+            color: var(--text-primary);
+        }
+
+        .success-msg {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0 0 24px;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .request-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-actions,
+            .request-actions {
+                flex-direction: column;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            td, th {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="logo">STC Hub - Unified License Management Platform</div>
+        <div class="user-section">
+            <button class="btn-primary" onclick="openNewLicenseModal()">+ request new license</button>
+            <span class="user-name">David</span>
+            <div class="avatar">D</div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('dashboard')">dashboard</button>
+        <button class="tab-btn" onclick="switchTab('allLicenses')">all licenses</button>
+        <button class="tab-btn" onclick="switchTab('requests')">new license requests</button>
+    </div>
+
+    <!-- Screen 1: Dashboard -->
+    <div id="dashboard" class="screen active">
+        <div class="container">
+            <div style="margin-bottom: 24px;">
+                <h1>license inventory overview</h1>
+                <p class="subtitle">total licenses: 287 • active users: 215 • awaiting renewal: 3 • avg utilization: 75% • last synced: Sep 10, 2026 at 2:45 PM</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <p class="metric-label">total licenses</p>
+                    <p class="metric-value">287</p>
+                    <p class="metric-desc">across 12 products</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">active users</p>
+                    <p class="metric-value">215</p>
+                    <p class="metric-desc">75% utilization</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">expiring soon</p>
+                    <p class="metric-value" style="color: #D85A30;">3</p>
+                    <p class="metric-desc">within 30 days</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">new requests pending</p>
+                    <p class="metric-value" style="color: #0F6E56;">2</p>
+                    <p class="metric-desc">awaiting approval</p>
+                </div>
+            </div>
+
+            <div class="alert-banner">
+                <div class="alert-icon">⏰</div>
+                <div>
+                    <p class="alert-title">renewal action needed</p>
+                    <p class="alert-msg">3 licenses expiring in 30 days — Adobe Creative Cloud (Dec 23), Microsoft 365 (Jan 15), Salesforce (Feb 28)</p>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>license</th>
+                        <th>quantity</th>
+                        <th>expires</th>
+                        <th>status</th>
+                        <th>owner</th>
+                        <th>action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Adobe Creative Cloud</td>
+                        <td>25</td>
+                        <td style="color: #D85A30; font-weight: 500;">Dec 23, 2024</td>
+                        <td><span class="status-badge status-critical">critical</span></td>
+                        <td>
+                            <div class="owner-cell">
+                                <div class="owner-avatar">M</div>
+                                <span>Marcus</span>
+                            </div>
+                        </td>
+                        <td><button class="btn-renew">renew</button></td>
+                    </tr>
+                    <tr>
+                        <td>Microsoft 365 Enterprise</td>
+                        <td>100</td>
+                        <td style="color: #0F6E56; font-weight: 500;">Jan 15, 2025</td>
+                        <td><span class="status-badge status-active">active</span></td>
+                        <td>
+                            <div class="owner-cell">
+                                <div class="owner-avatar" style="background: #EAF3DE; color: #3B6D11;">R</div>
+                                <span>Robert</span>
+                            </div>
+                        </td>
+                        <td><button class="btn-details">details</button></td>
+                    </tr>
+                    <tr>
+                        <td>Salesforce Sales Cloud</td>
+                        <td>50</td>
+                        <td style="color: #0F6E56; font-weight: 500;">Feb 28, 2025</td>
+                        <td><span class="status-badge status-active">active</span></td>
+                        <td>
+                            <div class="owner-cell">
+                                <div class="owner-avatar">J</div>
+                                <span>Jennifer</span>
+                            </div>
+                        </td>
+                        <td><button class="btn-details">details</button></td>
+                    </tr>
+                    <tr>
+                        <td>Slack Enterprise Grid</td>
+                        <td>150</td>
+                        <td style="color: var(--text-secondary);">Dec 12, 2025</td>
+                        <td><span class="status-badge status-secure">secure</span></td>
+                        <td>
+                            <div class="owner-cell">
+                                <div class="owner-avatar" style="background: #F5E6F1; color: #5B2C7D;">A</div>
+                                <span>Albert</span>
+                            </div>
+                        </td>
+                        <td><button class="btn-details">details</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Screen 2: All Licenses -->
+    <div id="allLicenses" class="screen">
+        <div class="container">
+            <h1>all licenses</h1>
+            <p class="subtitle">complete inventory of all active and expiring licenses</p>
+            <p class="subtitle" style="text-align: center; margin-top: 60px;">Full license table with filtering and sorting goes here — showing all 12 products, their allocation by department, utilization %, renewal dates, owners, etc.</p>
+        </div>
+    </div>
+
+    <!-- Screen 3: New License Requests -->
+    <div id="requests" class="screen">
+        <div class="container">
+            <h1>new license requests</h1>
+            <p class="subtitle">requests for new licenses awaiting approval from solutions by stc</p>
+
+            <div style="margin-top: 24px;">
+                <!-- Request 1 -->
+                <div class="request-card">
+                    <div class="request-header">
+                        <div>
+                            <p class="request-title">pending</p>
+                            <h3 class="request-name">Jira Cloud Enterprise</h3>
+                        </div>
+                        <span class="badge-new">new request</span>
+                    </div>
+
+                    <div class="request-details">
+                        <div>
+                            <p class="detail-field">requested by</p>
+                            <div class="owner-cell">
+                                <div class="owner-avatar">D</div>
+                                <span class="detail-value">David</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="detail-field">estimated licenses</p>
+                            <p class="detail-value">30 licenses</p>
+                        </div>
+                        <div>
+                            <p class="detail-field">date submitted</p>
+                            <p class="detail-value">Sep 08, 2026</p>
+                        </div>
+                        <div>
+                            <p class="detail-field">department</p>
+                            <p class="detail-value">Engineering</p>
+                        </div>
+                    </div>
+
+                    <div class="justification-box">
+                        <p class="justification-label">business justification</p>
+                        <p class="justification-text">Jira is needed for dev team to manage sprint planning and issue tracking across 3 engineering pods. Expecting 25-30 active users within Q1 2025. Critical for agile workflow and release management.</p>
+                    </div>
+
+                    <div class="request-actions">
+                        <button class="btn-approve" onclick="alert('✓ Jira approved and sent to solutions by stc\n\nyou will receive a proposal within 2 business days')">approve & send to solutions by stc</button>
+                        <button class="btn-reject" onclick="alert('rejection workflow: you can provide feedback and ask for more information from the requesting team')">reject</button>
+                    </div>
+                </div>
+
+                <!-- Request 2 -->
+                <div class="request-card">
+                    <div class="request-header">
+                        <div>
+                            <p class="request-title">pending</p>
+                            <h3 class="request-name">Figma Pro Seats</h3>
+                        </div>
+                        <span class="badge-new">new request</span>
+                    </div>
+
+                    <div class="request-details">
+                        <div>
+                            <p class="detail-field">requested by</p>
+                            <div class="owner-cell">
+                                <div class="owner-avatar" style="background: #EAF3DE; color: #3B6D11;">B</div>
+                                <span class="detail-value">Bob</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="detail-field">estimated licenses</p>
+                            <p class="detail-value">12 licenses</p>
+                        </div>
+                        <div>
+                            <p class="detail-field">date submitted</p>
+                            <p class="detail-value">Sep 06, 2026</p>
+                        </div>
+                        <div>
+                            <p class="detail-field">department</p>
+                            <p class="detail-value">Design</p>
+                        </div>
+                    </div>
+
+                    <div class="justification-box">
+                        <p class="justification-label">business justification</p>
+                        <p class="justification-text">Figma Pro licenses for product design team to collaborate on UI/UX designs. Currently using free tier but hitting collaboration and version history limits. 12 designer + product manager roles need paid access for real-time co-design.</p>
+                    </div>
+
+                    <div class="request-actions">
+                        <button class="btn-approve" onclick="alert('✓ Figma approved and sent to solutions by stc\n\nyou will receive a proposal within 2 business days')">approve & send to solutions by stc</button>
+                        <button class="btn-reject" onclick="alert('rejection workflow: you can provide feedback and ask for more information from the requesting team')">reject</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New License Request Modal -->
+    <div id="newLicenseModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeNewLicenseModal()">✕</button>
+            <h2 class="modal-title">request new license</h2>
+
+            <div class="form-group">
+                <label class="form-label">software/product name *</label>
+                <input type="text" id="productName" placeholder="e.g., Jira Cloud, Figma Pro, Notion Business">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">estimated number of licenses *</label>
+                <input type="number" id="licenseCount" placeholder="e.g., 25">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">department/team requesting *</label>
+                <select id="department">
+                    <option value="">-- select department --</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="design">Design</option>
+                    <option value="product">Product</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="sales">Sales</option>
+                    <option value="finance">Finance</option>
+                    <option value="hr">HR</option>
+                    <option value="operations">Operations</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">business justification *</label>
+                <textarea id="justification" placeholder="explain why this license is needed, which teams will use it, and how it supports business operations..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">term preference</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="term" value="1-year" checked>
+                        <span>1 year</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="term" value="2-years">
+                        <span>2 years</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="term" value="3-years">
+                        <span>3 years</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-submit" onclick="submitNewLicenseRequest()">submit request</button>
+                <button class="btn-cancel" onclick="closeNewLicenseModal()">cancel</button>
+            </div>
+
+            <p class="modal-footer">your request will be reviewed by IT and finance before being sent to solutions by stc for sourcing</p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content success-modal">
+            <div class="success-icon">✓</div>
+            <h2 class="success-title" id="successTitle">request submitted</h2>
+            <p class="success-msg" id="successMsg">your new license request has been submitted to IT and Finance for review.</p>
+            <button class="btn-submit" onclick="closeSuccessModal()">view my requests</button>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function openNewLicenseModal() {
+            document.getElementById('newLicenseModal').classList.add('active');
+        }
+
+        function closeNewLicenseModal() {
+            document.getElementById('newLicenseModal').classList.remove('active');
+            document.getElementById('productName').value = '';
+            document.getElementById('licenseCount').value = '';
+            document.getElementById('department').value = '';
+            document.getElementById('justification').value = '';
+        }
+
+        function submitNewLicenseRequest() {
+            const productName = document.getElementById('productName').value.trim();
+            const licenseCount = document.getElementById('licenseCount').value.trim();
+            const department = document.getElementById('department').value.trim();
+            const justification = document.getElementById('justification').value.trim();
+            
+            if (!productName || !licenseCount || !department || !justification) {
+                alert('please fill in all required fields');
+                return;
+            }
+            
+            document.getElementById('successTitle').textContent = productName + ' license request submitted';
+            document.getElementById('successMsg').textContent = 'your request for ' + licenseCount + ' licenses has been submitted to IT and Finance. they will review your business justification and send it to solutions by stc for sourcing within 2-3 business days.';
+            document.getElementById('successModal').classList.add('active');
+            closeNewLicenseModal();
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+            switchTabDirectly('requests');
+        }
+
+        function switchTabDirectly(tabName) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            document.querySelectorAll('.tab-btn')[['dashboard', 'allLicenses', 'requests'].indexOf(tabName)].classList.add('active');
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const newLicenseModal = document.getElementById('newLicenseModal');
+            const successModal = document.getElementById('successModal');
+            if (event.target == newLicenseModal) {
+                closeNewLicenseModal();
+            }
+            if (event.target == successModal) {
+                closeSuccessModal();
+            }
+        }
+    </script>
+</body>
+</html>
