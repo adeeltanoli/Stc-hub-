@@ -249,6 +249,57 @@
         }
 
         .status-critical {
+            background: #FEE4E2;
+            color: #B42318;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: #ECFDF5;
+            color: #027A48;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-secure {
+            background: #E7F5FF;
+            color: #004B87;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .license-table {
+            width: 100%;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            background: #F3F4F6;
+            color: var(--text-primary);
+            border: 0.5px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-sm:hover {
+            background: #E5E7EB;
+            border-color: #9CA3AF;
+        }
+
+        .status-critical {
             background: #FAECE7;
             color: #993C1D;
         }
@@ -771,7 +822,145 @@
         <div class="container">
             <h1>all licenses</h1>
             <p class="subtitle">complete inventory of all active and expiring licenses</p>
-            <p class="subtitle" style="text-align: center; margin-top: 60px;">Full license table with filtering and sorting goes here — showing all 12 products, their allocation by department, utilization %, renewal dates, owners, etc.</p>
+            
+            <div style="margin-top: 24px; overflow-x: auto;">
+                <table class="license-table">
+                    <thead>
+                        <tr>
+                            <th>license</th>
+                            <th>quantity</th>
+                            <th>expires</th>
+                            <th>status</th>
+                            <th>owner</th>
+                            <th>department</th>
+                            <th>utilization %</th>
+                            <th>action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Adobe Creative Cloud</strong></td>
+                            <td>25</td>
+                            <td>Dec 23, 2024</td>
+                            <td><span class="status-critical">critical</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">M</div><span>Marcus</span></div></td>
+                            <td>Design</td>
+                            <td>92%</td>
+                            <td><button class="btn-sm">renew</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Microsoft 365 Enterprise</strong></td>
+                            <td>100</td>
+                            <td>Jan 15, 2025</td>
+                            <td><span class="status-active">active</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">R</div><span>Robert</span></div></td>
+                            <td>Organization-wide</td>
+                            <td>87%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Salesforce Sales Cloud</strong></td>
+                            <td>50</td>
+                            <td>Feb 28, 2025</td>
+                            <td><span class="status-active">active</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">J</div><span>Jennifer</span></div></td>
+                            <td>Sales</td>
+                            <td>76%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Slack Enterprise Grid</strong></td>
+                            <td>150</td>
+                            <td>Dec 12, 2025</td>
+                            <td><span class="status-secure">secure</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">A</div><span>Albert</span></div></td>
+                            <td>Organization-wide</td>
+                            <td>94%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Jira Cloud Enterprise</strong></td>
+                            <td>35</td>
+                            <td>Mar 30, 2025</td>
+                            <td><span class="status-active">active</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">D</div><span>David</span></div></td>
+                            <td>Engineering</td>
+                            <td>81%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Figma Pro</strong></td>
+                            <td>12</td>
+                            <td>Apr 15, 2025</td>
+                            <td><span class="status-active">active</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">S</div><span>Sarah</span></div></td>
+                            <td>Design</td>
+                            <td>100%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Datadog APM</strong></td>
+                            <td>20</td>
+                            <td>May 20, 2025</td>
+                            <td><span class="status-active">active</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">P</div><span>Paul</span></div></td>
+                            <td>Engineering</td>
+                            <td>68%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>GitHub Enterprise</strong></td>
+                            <td>45</td>
+                            <td>Jun 10, 2025</td>
+                            <td><span class="status-active">active</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">K</div><span>Kevin</span></div></td>
+                            <td>Engineering</td>
+                            <td>89%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monday.com Enterprise</strong></td>
+                            <td>30</td>
+                            <td>Jul 05, 2025</td>
+                            <td><span class="status-active">active</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">E</div><span>Emily</span></div></td>
+                            <td>Product</td>
+                            <td>72%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Zoom Pro</strong></td>
+                            <td>200</td>
+                            <td>Aug 18, 2025</td>
+                            <td><span class="status-active">active</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">L</div><span>Lisa</span></div></td>
+                            <td>Organization-wide</td>
+                            <td>95%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Asana Premium</strong></td>
+                            <td>40</td>
+                            <td>Sep 22, 2025</td>
+                            <td><span class="status-active">active</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">T</div><span>Thomas</span></div></td>
+                            <td>Product</td>
+                            <td>79%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intercom Pro</strong></td>
+                            <td>8</td>
+                            <td>Oct 30, 2025</td>
+                            <td><span class="status-active">active</span></td>
+                            <td><div class="owner-cell"><div class="owner-avatar">C</div><span>Claire</span></div></td>
+                            <td>Marketing</td>
+                            <td>62%</td>
+                            <td><button class="btn-sm">details</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
